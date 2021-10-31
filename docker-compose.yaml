@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  swagger-cli:
+    image: jeanberu/swagger-cli
+    volumes:
+      - ./openapi/:/openapi/
+    working_dir: /openapi
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./openapi/dist/openapi.yaml:/openapi/openapi.yaml
+    environment:
+      SWAGGER_JSON: /openapi/openapi.yaml
+
+  openapi-generator:
+    image: openapitools/openapi-generator-cli
+    volumes:
+      - .:/openapi:cached
+    working_dir: /openapi
+
+  prism:
+    image: stoplight/prism:4
+    command: 'mock -h 0.0.0.0 /openapi/openapi.yaml'
+    volumes:
+      - ./openapi/dist/openapi.yaml:/openapi/openapi.yaml
+    ports:
+      - '4010:4010'
