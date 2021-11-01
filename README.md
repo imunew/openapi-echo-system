@@ -1,4 +1,4 @@
-# openapi-echo-system
+# openapi-ecosystem
 This project will introduce an ecosystem around the OpenAPI specification and various tools.
 
 ## build-api-spec
